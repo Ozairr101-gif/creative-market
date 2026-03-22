@@ -138,7 +138,7 @@ export default function VendorProfileForm({
 
         setSuccess(true)
         router.refresh()
-        setTimeout(() => router.push('/vendor-hub/profile'), 1200)
+        setTimeout(() => router.push(vendor ? '/vendor-hub/profile' : '/vendor-hub'), 1200)
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.'
         setError(message)

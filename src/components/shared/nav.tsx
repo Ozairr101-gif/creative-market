@@ -128,7 +128,7 @@ export function Nav({ user }: NavProps) {
                     )}
                   >
                     <Link
-                      href="/dashboard"
+                      href={user.role === 'vendor' ? '/vendor-hub' : '/dashboard'}
                       onClick={closeMenus}
                       role="menuitem"
                       className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#FAF7F5] hover:text-[#8B1D4F] transition-colors duration-100"
@@ -238,7 +238,7 @@ export function Nav({ user }: NavProps) {
                 </span>
               </div>
               <Link
-                href="/dashboard"
+                href={user.role === 'vendor' ? '/vendor-hub' : '/dashboard'}
                 onClick={closeMenus}
                 className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-[#8B1D4F]/5 hover:text-[#8B1D4F] transition-colors duration-100"
               >

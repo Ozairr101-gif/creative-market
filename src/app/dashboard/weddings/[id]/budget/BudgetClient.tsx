@@ -76,16 +76,16 @@ export default function BudgetClient({
             </span>
             <span>{Math.round(budgetPct)}%</span>
           </div>
-          <div className="h-3 rounded-full bg-gray-100 overflow-hidden">
+          <div className="h-3 rounded-full bg-gray-100 overflow-hidden" style={{ position: 'relative' }}>
             {/* Estimated layer */}
             <div
-              className="h-full rounded-full bg-[#8B1D4F]/20 absolute"
-              style={{ width: `${estimatedPct}%` }}
+              className="h-full rounded-full bg-[#8B1D4F]/20"
+              style={{ width: `${estimatedPct}%`, position: 'absolute', top: 0, left: 0 }}
             />
             {/* Actual layer */}
             <div
-              className="h-full rounded-full bg-[#8B1D4F] relative"
-              style={{ width: `${budgetPct}%` }}
+              className="h-full rounded-full bg-[#8B1D4F]"
+              style={{ width: `${budgetPct}%`, position: 'absolute', top: 0, left: 0 }}
             />
           </div>
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">

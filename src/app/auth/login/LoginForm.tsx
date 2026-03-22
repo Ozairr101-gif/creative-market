@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { getAuthErrorMessage } from '@/lib/supabase/auth-errors'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -25,7 +26,7 @@ export default function LoginForm() {
       })
 
       if (signInError) {
-        setError(signInError.message)
+        setError(getAuthErrorMessage(signInError.message))
         return
       }
 

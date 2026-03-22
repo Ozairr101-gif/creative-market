@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ interface InquireFormProps {
 }
 
 export default function InquireForm({ vendor, userId, weddings }: InquireFormProps) {
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }) }, [])
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)

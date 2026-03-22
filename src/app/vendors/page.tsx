@@ -21,6 +21,8 @@ export const metadata: Metadata = {
     'Browse 2,000+ verified Asian wedding vendors. Venues, caterers, photographers, mehndi artists and more across the UK.',
 }
 
+const PUBLIC_VENDOR_STATUSES = ['active', 'pending_review'] as const
+
 interface VendorCardProps {
   vendor: Vendor
 }
@@ -149,7 +151,7 @@ export default async function VendorsPage({ searchParams }: Props) {
   let query = supabase
     .from('vendors')
     .select('*')
-    .eq('status', 'active')
+    .in('status', [...PUBLIC_VENDOR_STATUSES])
     .order('featured', { ascending: false })
     .order('created_at', { ascending: false })
 

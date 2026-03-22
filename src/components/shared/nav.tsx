@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 import { Avatar } from '@/components/ui/avatar'
+import { SignOutButton } from '@/components/shared/sign-out-button'
 
 interface NavUser {
   id: string
@@ -30,11 +31,6 @@ export function Nav({ user }: NavProps) {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setMobileOpen(false)
-    setDropdownOpen(false)
-  }, [pathname])
-
-  useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false)
@@ -44,7 +40,10 @@ export function Nav({ user }: NavProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const dashboardHref = user?.role === 'vendor' ? '/vendor-hub' : '/dashboard'
+  function closeMenus() {
+    setMobileOpen(false)
+    setDropdownOpen(false)
+  }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#8B1D4F]/10 bg-[#FAF7F5]/95 backdrop-blur-sm">
@@ -52,6 +51,7 @@ export function Nav({ user }: NavProps) {
         {/* Logo */}
         <Link
           href="/"
+          onClick={closeMenus}
           className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B1D4F] rounded-md"
         >
           <Sparkles
@@ -73,6 +73,7 @@ export function Nav({ user }: NavProps) {
             <li key={href}>
               <Link
                 href={href}
+                onClick={closeMenus}
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium transition-colors duration-150',
                   'hover:text-[#8B1D4F] hover:bg-[#8B1D4F]/5',
@@ -128,6 +129,7 @@ export function Nav({ user }: NavProps) {
                   >
                     <Link
                       href="/dashboard"
+                      onClick={closeMenus}
                       role="menuitem"
                       className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#FAF7F5] hover:text-[#8B1D4F] transition-colors duration-100"
                     >
@@ -137,6 +139,7 @@ export function Nav({ user }: NavProps) {
                     {user.role === 'vendor' && (
                       <Link
                         href="/vendor-hub"
+                        onClick={closeMenus}
                         role="menuitem"
                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#FAF7F5] hover:text-[#8B1D4F] transition-colors duration-100"
                       >
@@ -145,14 +148,12 @@ export function Nav({ user }: NavProps) {
                       </Link>
                     )}
                     <hr className="my-1 border-gray-100" />
-                    <Link
-                      href="/auth/signout"
-                      role="menuitem"
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-100"
+                    <SignOutButton
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-100 disabled:opacity-60"
                     >
                       <LogOut size={15} aria-hidden="true" />
                       Sign out
-                    </Link>
+                    </SignOutButton>
                   </div>
                 )}
               </div>
@@ -161,6 +162,7 @@ export function Nav({ user }: NavProps) {
             <>
               <Link
                 href="/auth/login"
+                onClick={closeMenus}
                 className={cn(
                   'rounded-md px-3 py-2 text-sm font-medium text-gray-600',
                   'hover:text-[#8B1D4F] transition-colors duration-150',
@@ -171,6 +173,7 @@ export function Nav({ user }: NavProps) {
               </Link>
               <Link
                 href="/vendors"
+                onClick={closeMenus}
                 className={cn(
                   'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-150',
                   'bg-[#8B1D4F] text-white hover:bg-[#7a1944] active:bg-[#6b1639]',
@@ -211,6 +214,7 @@ export function Nav({ user }: NavProps) {
               <li key={href}>
                 <Link
                   href={href}
+                  onClick={closeMenus}
                   className={cn(
                     'block rounded-md px-3 py-2.5 text-sm font-medium transition-colors duration-150',
                     'hover:text-[#8B1D4F] hover:bg-[#8B1D4F]/5',
@@ -235,6 +239,7 @@ export function Nav({ user }: NavProps) {
               </div>
               <Link
                 href="/dashboard"
+                onClick={closeMenus}
                 className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-[#8B1D4F]/5 hover:text-[#8B1D4F] transition-colors duration-100"
               >
                 <LayoutDashboard size={15} aria-hidden="true" />
@@ -243,19 +248,19 @@ export function Nav({ user }: NavProps) {
               {user.role === 'vendor' && (
                 <Link
                   href="/vendor-hub"
+                  onClick={closeMenus}
                   className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-[#8B1D4F]/5 hover:text-[#8B1D4F] transition-colors duration-100"
                 >
                   <Store size={15} aria-hidden="true" />
                   Vendor Hub
                 </Link>
               )}
-              <Link
-                href="/auth/signout"
-                className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-100"
+              <SignOutButton
+                className="flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-100 disabled:opacity-60"
               >
                 <LogOut size={15} aria-hidden="true" />
                 Sign out
-              </Link>
+              </SignOutButton>
             </div>
           ) : (
             <div className="flex flex-col gap-2 pt-1">

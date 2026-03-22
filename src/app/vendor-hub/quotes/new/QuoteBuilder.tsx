@@ -166,7 +166,7 @@ export default function QuoteBuilder({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="mx-auto max-w-6xl">
       <div className="grid gap-8 lg:grid-cols-5">
         {/* Left: builder */}
         <div className="lg:col-span-3 space-y-6">

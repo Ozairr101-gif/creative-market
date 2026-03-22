@@ -8,6 +8,8 @@ import { VENDOR_CATEGORY_LABELS } from '@/lib/utils'
 import type { Vendor, Profile } from '@/lib/types/database'
 import InquireForm from './InquireForm'
 
+const PUBLIC_VENDOR_STATUSES = ['active', 'pending_review'] as const
+
 export default async function InquireVendorPage({
   params,
 }: {
@@ -20,7 +22,7 @@ export default async function InquireVendorPage({
     .from('vendors')
     .select('id, business_name, slug, category, tagline, profile_image_url, status')
     .eq('slug', slug)
-    .eq('status', 'active')
+    .in('status', [...PUBLIC_VENDOR_STATUSES])
     .single()
 
   if (!vendor) notFound()

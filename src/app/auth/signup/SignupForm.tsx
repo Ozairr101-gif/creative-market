@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Heart, Store } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getAuthErrorMessage } from '@/lib/supabase/auth-errors'
 
 type Role = 'couple' | 'vendor'
 
@@ -43,7 +44,7 @@ export default function SignupForm() {
       })
 
       if (signUpError) {
-        setError(signUpError.message)
+        setError(getAuthErrorMessage(signUpError.message))
         return
       }
 

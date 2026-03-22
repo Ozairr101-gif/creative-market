@@ -10,6 +10,8 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "Shaadi HQ — Your Complete Asian Wedding OS",
   description:
@@ -33,7 +35,7 @@ export default async function RootLayout({
       .select("id, role, full_name")
       .eq("id", user.id)
       .single();
-    profile = data;
+    profile = data ?? null;
   }
 
   return (

@@ -110,14 +110,17 @@ export default function VendorProfileForm({
         if (vendor) {
           const { error: updateError } = await supabase
             .from('vendors')
-            .update(vendorData)
+            .update({
+              ...vendorData,
+              status: vendor.status === 'pending_review' ? 'active' : vendor.status,
+            })
             .eq('id', vendor.id)
           if (updateError) throw updateError
           vendorId = vendor.id
         } else {
           const { data: newVendor, error: insertError } = await supabase
             .from('vendors')
-            .insert({ ...vendorData, status: 'pending_review', verified: false, featured: false, verification_tier: 'none' })
+            .insert({ ...vendorData, status: 'active', verified: false, featured: false, verification_tier: 'none' })
             .select('id')
             .single()
           if (insertError) throw insertError
@@ -151,7 +154,7 @@ export default function VendorProfileForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl">
+    <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
       {/* Progress indicator */}
       <div className="mb-8">
         <div className="flex items-center gap-0">

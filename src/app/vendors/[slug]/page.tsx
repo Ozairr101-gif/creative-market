@@ -33,6 +33,8 @@ import type {
 import { ShortlistButton } from './page-client'
 import type { Metadata } from 'next'
 
+const PUBLIC_VENDOR_STATUSES = ['active', 'pending_review'] as const
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Metadata
 // ─────────────────────────────────────────────────────────────────────────────
@@ -48,7 +50,7 @@ export async function generateMetadata({
     .from('vendors')
     .select('business_name, tagline, category')
     .eq('slug', slug)
-    .eq('status', 'active')
+    .in('status', [...PUBLIC_VENDOR_STATUSES])
     .single()
 
   if (!vendor) return {}
@@ -128,7 +130,7 @@ export default async function VendorProfilePage({ params }: Props) {
       .from('vendors')
       .select('*')
       .eq('slug', slug)
-      .eq('status', 'active')
+      .in('status', [...PUBLIC_VENDOR_STATUSES])
       .single(),
     supabase
       .from('vendor_gallery')
@@ -176,7 +178,7 @@ export default async function VendorProfilePage({ params }: Props) {
   const { data: relatedRaw } = await supabase
     .from('vendors')
     .select('id, business_name, slug, category, profile_image_url, price_from_gbp, price_to_gbp, verified, service_areas')
-    .eq('status', 'active')
+    .in('status', [...PUBLIC_VENDOR_STATUSES])
     .eq('category', vendor.category)
     .neq('id', vendor.id)
     .order('featured', { ascending: false })
